@@ -4,16 +4,34 @@
     <head>
         <link rel="stylesheet" type="text/css" href="style.css">
 
-        <script src="index.js" >
-        </script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
 
    <body>
-        <h5> Welcome to ExpressJS App</h5>
+        <h5> Welcome to ExpressJS video</h5>
 
-        <form>
-            <input type="button" value="Result" onclick="display()"/>
-        </form>
+        <div class="wrapper">
+          <div class="audio-wrapper">
+            <audio src="" controls class="js-audio audio"></audio>
+          </div>
+        
+          <div class="toolbar">
+            <button onclick="startRecording()"> Start</button>
+            <button onclick="stopRecording()">Stop</button>
+          </div>
+
+          <div>
+            <button onclick="test()"> test post</button>
+          </div>
+
+        </div>
 
    </body>
+
+   <script src="record.js" > </script>
+   <script src="axios.js" > </script>
+   <script src="test.js" > </script>
+
+
 </html>
