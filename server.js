@@ -37,21 +37,19 @@ app.post('/api/', function (req, res) {
     //console.log("req->data->", data_req);
     //console.log("req->base64->", base64);
     //s3_upload_fileExchange.s3_upload(data_req);
-    phq8_score= 23
-    session_id= gen_session(phq8_score);//phq8_score
+    let video_id= "000000";
+    session_id= gen_session(video_id);
 
     console.log('\n\n----------------------stream', data_req.id ,'------------------------------');
     // kafka
     let data= data_req;
-    data.session_id= session_id;
-    data.phq8_score= phq8_score;
-    if(data.id!="full.webm"){
-        kafkajs.producer(data);
-    }
+
+    let group= data_req.group;
+    let id= data_req.id;
+    let base64= data_req.base64;
+    //kafkajs.producer(data);
 
     // s3 upload
-    let base64= data_req.base64;
-    let id= data_req.id;
     s3_upload_stream.s3_upload(base64, id, session_id);
 
 
@@ -61,8 +59,8 @@ port= 3000
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
 
 
-function gen_session(phq8_score){
-    session_id= time_now + '_' + phq8_score
+function gen_session(video_id){
+    session_id= time_now + '_' + video_id;
     console.log("session_id", session_id);
     return session_id;
 }

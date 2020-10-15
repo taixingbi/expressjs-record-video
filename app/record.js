@@ -2,15 +2,12 @@
 
 // console.log("11", document.URL)
 
-
 const chunks = [];
-
 let recorder = null;
-
 let audioElement = null;
-
-
 let stream= null;
+
+let videoHtml = document.querySelector('video');
 
 let config= {
     i:-1, // index of chunks
@@ -24,45 +21,51 @@ const saveChunkToRecording = (event) => {
 
 const saveRecording = () => {
     if (recorder.state=="recording"){
-        var data_chunks= chunks.slice(config.i, config.i+1);
+        var single_chunk= chunks.slice(config.i, config.i+1);
     }else{
-        var data_chunks= chunks;
+        var single_chunk= chunks;
     }
 
-    const blob = new Blob( data_chunks, {
-        type: 'audio/wav; codecs=opus'
+    const blob = new Blob( single_chunk, {
+        type: 'video/webm; codecs=opus'
     });
 
     const url = URL.createObjectURL(blob); //string
 
-    if(last==config.i){ // stop
-        name= "full.webm";
-    }else{ //stream
-        name= config.i+".webm";
-    }
+    // if(last==config.i){ // stop
+    //     name= "full.webm";
+    // }else{ //stream
+    //     name= config.i+".webm";
+    // }
+    name= config.i+".webm";
+
     record_send(name, url, blob);
     //record_download(url, name);
     console.log( "record..", config.i, chunks, name );
 
     last= config.i;
-    audioElement.setAttribute('src', url);
+    // audioElement.setAttribute('src', url);
 };
 
 const startRecording = () => {
     recorder.start();
+    clockTag= true;
 };
 
 const stopRecording = () => {
     recorder.stop();
+    clockTag= false;
 };
 
 const initRecording = () => {
-    audioElement = document.querySelector('.js-audio');
+    audioElement = document.getElementById('video');
     
     navigator.mediaDevices.getUserMedia({
-        //video: true,
+        video: true,
         audio: true
     }).then(stream => {
+        videoHtml.srcObject = stream;
+
         recorder = new MediaRecorder(stream);
 
         recorder.ondataavailable = saveChunkToRecording;
@@ -107,6 +110,7 @@ function record_send(name, url, blob){
     console.log( "blob", blob);
 
     data= {
+        group:"record_test",
         id: name,
         url: url,
         base64:null

@@ -36,8 +36,8 @@ function aws_s3_upload_file(Bucket, Prekey, S3_key, fileStream){
 module.exports = {
   s3_upload:function main(base64, id, session_id){
     console.log("\ns3_upload_stream....");
-    const S3_Bucket= 'ml-data-warehouse-test';
-    const S3_Prekey= 'phq8/' + session_id + '/';
+    const S3_Bucket= 'ml-data-record-test';
+    const S3_Prekey= 'record/' + session_id + '/';
     const S3_key= id;
 
     let buff = new Buffer(base64, 'base64'); //binary stream

@@ -9,6 +9,8 @@ console.log("ACCESSKEYID ", accessKeyId);
 console.log("SECRETACCESSKEY ", secretAccessKey);
 
 function aws_s3_upload_file(Bucket, Prekey, filename){
+  console.log('aws_s3_upload_file...');
+
   // const Bucket= 'ml-data-warehouse-test';
   // const Prekey= 'phq8/';
   // const file= 'hunter.wav';//path
