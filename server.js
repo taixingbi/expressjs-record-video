@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
     time_now= new Date().getTime();
 });
 
-app.post('/api/', function (req, res) {
+app.post('/api/post/stream', function (req, res) {
 
     data_res= { "index":"0", "post":"success" }
     res.send(data_res)
@@ -48,13 +48,12 @@ app.post('/api/', function (req, res) {
     // s3_upload_stream.s3_upload(base64, id, session_id);
 })
 
-
 let username='kaden';
 let password='1234';
 let uri = "mongodb://" + username + ":" + password + "@54.87.133.19:27017/" 
 // http://localhost:3000/api/transcribe/aws-transcribe-result-test-tmp/col
- 
-app.get('/api/transcribe/:db_name/:collection_name', (req, res) => {
+
+app.get('/api/get/transcribe/:db_name/:collection_name', (req, res) => {
   // db_name= 'ml-test';
   // collection_name='col1';
   db_name= req.params.db_name;

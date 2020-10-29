@@ -5,7 +5,7 @@
 
 
 async function aixos_post(data){
-    let url= document.URL + 'api';
+    let url= document.URL + 'api/post/stream';
 
     await axios.post(url, data)
     .then((response) => {
@@ -16,7 +16,7 @@ async function aixos_post(data){
 async function aixos_get(db_name, collection_name){
     // db_name= 'aws-transcribe-result-test-tmp';
     // collection_name= 'col1';
-    let url = document.URL + 'api/transcribe/' + db_name + '/' + collection_name;
+    let url = document.URL + 'api/get/transcribe/' + db_name + '/' + collection_name;
     console.log('url', url);
 
     await axios.get(url, {

@@ -26,8 +26,8 @@ async function transcribe(){
         }
         let timestamp= item['timestamp']
         if(timestamp==undefined){continue;}
-        content_transcribe += timestamp + ": " + item['transcripts'] + "<br />";
-        //content_transcribe += convertTime(timestamp) + ": " + item['transcripts'] + "<br />";
+        // content_transcribe += timestamp + ": " + item['transcripts'] + "<br />";
+        content_transcribe += convertTime(timestamp) + ": " + item['transcripts'] + "<br />";
     }
     if(content_transcribe!=""){
         document.getElementById("content_transcribe").innerHTML= content_transcribe;
