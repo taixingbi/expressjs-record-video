@@ -9,11 +9,20 @@ let stream= null;
 
 let videoHtml = document.querySelector('video');
 
+
 let config= {
     i:-1, // index of chunks
     second: 5
 } 
-last= null
+last= null;
+
+let session_id= null;
+function gen_session(video_id){
+    let time_now= new Date().getTime();
+    let session_id= time_now + '_' + video_id;
+    console.log("session_id", session_id);
+    return session_id;
+}
 
 const saveChunkToRecording = (event) => {
     chunks.push(event.data);
@@ -37,22 +46,33 @@ const saveRecording = () => {
     // }else{ //stream
     //     name= config.i+".webm";
     // }
-    name= config.i+".webm";
 
-    record_send(name, url, blob);
+    // stream_id= config.i+ '-'+ time_now + ".webm";
+    stream_id= config.i+ ".webm";
+    // console.log( "stream_id..", stream_id );
+    let stream_timestamp= new Date().getTime();
+
+    record_send(stream_id, stream_timestamp, url, blob);
     //record_download(url, name);
-    console.log( "record..", config.i, chunks, name );
 
     last= config.i;
     // audioElement.setAttribute('src', url);
 };
 
+
 const startRecording = () => {
+    div_hidden("video_start", true);
+    div_hidden("video_end", false);
+
+    session_id= gen_session("user_info");    
     recorder.start();
     clockTag= true;
 };
 
 const stopRecording = () => {
+    div_hidden("video_end", true);
+    div_hidden("video_start", false);
+
     recorder.stop();
     clockTag= false;
 };
@@ -105,13 +125,16 @@ function record_download(blobURL, name="full") {
   document.body.removeChild(link);
 }
 
-function record_send(name, url, blob){
+function record_send(stream_id, stream_timestamp, url, blob){
     console.log( "url", url);
     console.log( "blob", blob);
 
     data= {
-        group:"record_test",
-        id: name,
+        topic:"webRecordVideo",
+        group:"record",
+        session_id: session_id,
+        stream_id: stream_id,
+        stream_timestamp: stream_timestamp,
         url: url,
         base64:null
     };

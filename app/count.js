@@ -7,5 +7,5 @@ var x = setInterval(function() {
         clock = clock + 1
     }
 
-    document.getElementById("demo").innerHTML = clock;
+    document.getElementById("clock_video").innerHTML = "video: " + clock + " s";
 }, 1000);

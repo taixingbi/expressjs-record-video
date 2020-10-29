@@ -2,6 +2,7 @@
 //var s3_upload_fileExchange = require('./s3_upload_fileExchange.js');
 var s3_upload_stream = require('./s3_upload_stream.js');
 var kafkajs = require('./kafkajs.js');
+const mongoose = require("mongoose");
 
 var express = require('express');
 var app = express();
@@ -20,53 +21,68 @@ app.get('/', function(req, res) {
     time_now= new Date().getTime();
 });
 
-// app.get('/api/', function (req, res) {
-//     data= { "index":"0", "get":"success" }
-//     res.send(data)
-
-// })
-
 app.post('/api/', function (req, res) {
 
     data_res= { "index":"0", "post":"success" }
     res.send(data_res)
 
     let data_req= req.body;
-
-
-    //console.log("req->data->", data_req);
-    //console.log("req->base64->", base64);
-    //s3_upload_fileExchange.s3_upload(data_req);
-    let video_id= "000000";
-    session_id= gen_session(video_id);
-
-    console.log('\n\n----------------------stream', data_req.id ,'------------------------------');
-    // kafka
+    console.log('\n\n----------------------stream------------------------------');
     let data= data_req;
 
+    let topic= data_req.topic;
     let group= data_req.group;
-    let id= data_req.id;
+    let stream_id= data_req.stream_id;
+    let stream_timestamp= data_req.stream_timestamp;
+    let url= data_req.url;
     let base64= data_req.base64;
-    //kafkajs.producer(data);
+
+    console.log("topic:", topic);
+    console.log("group:", group);
+    console.log("stream_id:", stream_id);
+    console.log("stream_timestamp:", stream_timestamp);
+
+    kafkajs.producer(data);
 
     // s3 upload
-    s3_upload_stream.s3_upload(base64, id, session_id);
-
-
+    // s3_upload_stream.s3_upload(base64, id, session_id);
 })
 
-port= 3000
+
+let username='kaden';
+let password='1234';
+let uri = "mongodb://" + username + ":" + password + "@54.87.133.19:27017/" 
+// http://localhost:3000/api/transcribe/aws-transcribe-result-test-tmp/col
+ 
+app.get('/api/transcribe/:db_name/:collection_name', (req, res) => {
+  // db_name= 'ml-test';
+  // collection_name='col1';
+  db_name= req.params.db_name;
+  collection_name= req.params.collection_name;
+
+  var URI = uri + db_name;
+  console.log(URI);
+
+  mongoose.connect(URI, { useUnifiedTopology: true, useNewUrlParser: true });
+  const connection = mongoose.connection;
+
+  connection.once("open", function() {
+    console.log(db_name, "connected");
+
+    connection.db.collection(collection_name, function(err, collection){
+      collection.find({}).toArray(function(err, data){
+          console.log(data); 
+          connection.close();
+          console.log("close");
+          res.send(data);
+        })
+    });
+  });
+
+  // res.send('Your id is ' + req.params.id + '\n');
+});
+
+port= 80
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
-
-
-function gen_session(video_id){
-    session_id= time_now + '_' + video_id;
-    console.log("session_id", session_id);
-    return session_id;
-}
-
-
-
-
-
+console.log("Record Video App");
 

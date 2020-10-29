@@ -5,8 +5,8 @@ require('dotenv').config()
 accessKeyId= process.env.ACCESSKEYID;
 secretAccessKey= process.env.SECRETACCESSKEY;
 
-console.log("ACCESSKEYID ", accessKeyId);
-console.log("SECRETACCESSKEY ", secretAccessKey);
+// console.log("ACCESSKEYID ", accessKeyId);
+// console.log("SECRETACCESSKEY ", secretAccessKey);
 
 function aws_s3_upload_file(Bucket, Prekey, S3_key, fileStream){
 

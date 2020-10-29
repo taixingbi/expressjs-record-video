@@ -9,32 +9,56 @@
     </head>
 
    <body>
-        <h5> Welcome to ExpressJS video</h5>
-        <p id="demo"></p>
 
-        <div class="wrapper">
-          <div class="audio-wrapper">
+    <div class="container_video_button">
+
+    </div>
+
+
+    <h1> Video Analysis</h1>
+    <hr class="rounded">
+
+    
+    <div class= "container_main">
+
+      <div class="flex-container">
+        <div>
+          <div class="container_video">
             <!-- <video src="" controls class="js-audio audio"></video> -->
-            <video id="video" width="240" height="180" autoplay=true controls muted/>
+            &nbsp &nbsp &nbsp &nbsp &nbsp
+            <video id="video" width="350" height="250" autoplay=true controls muted/>
           </div>
-        
-          <div class="toolbar">
-            <button onclick="startRecording()"> Start</button>
-            <button onclick="stopRecording()">Stop</button>
-          </div>
-
-          <div>
-            <button onclick="test()"> test post</button>
-          </div>
-
         </div>
+        <div>
+          <!-- <div class="div_video_button_center"> -->
+            <button class= "button" id="video_start" onclick="startRecording()"> Start</button>
+            <button class= "button" id="video_end" onclick="stopRecording()">Stop</button>
+          <!-- </div> -->
+          <br>  <br>
+          <p id="clock_video"> </p>
+        </div>
+      </div>
+      <hr class="rounded">
+
+      <div class="flex-container">
+        <div>
+          <div class= "container_transcribe">
+            transcription
+            <div class= "transcribe" id="content_transcribe"></div>
+          </div>
+        </div>
+        <div>
+          <!-- sentiment analysis -->
+        </div>
+      </div>
+    </div>
 
    </body>
 
    <script src="record.js" > </script>
    <script src="axios.js" > </script>
    <script src="count.js" > </script>
-   <script src="test.js" > </script>
-
+   <script src="transcribe.js" > </script>
+   <script src="utils.js" > </script>
 
 </html>
