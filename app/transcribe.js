@@ -1,6 +1,9 @@
 
 setInterval(transcribe, 4000);
 
+let stream_data= [];
+let stream_data_N= 0;
+
 let data_transcibe= [];
 
 async function transcribe(){
@@ -16,9 +19,19 @@ async function transcribe(){
     collection_name= session_id;
     await aixos_get(db_name, collection_name);
 
+    if( stream_data_N == data_transcibe.length){
+        return; // no new data 
+    } else{
+        stream_data_N = data_transcibe.length;
+    }
+
     // console.log('data_transcibe: ', data_transcibe);
     let content_transcribe= "";
-    for( var i= data_transcibe.length-1; i>=0; i--){
+
+    let data_sentiment= [];
+    let labels_sentiment= [];
+    
+    for( var i= stream_data_N-1; i>=0; i--){
         let item= data_transcibe[i];
         if( item['transcripts'] == "init" ){ 
             console.log('read audio wrong or recognize_google could not recognize it ')
@@ -26,13 +39,25 @@ async function transcribe(){
         }
         let timestamp= item['timestamp']
         if(timestamp==undefined){continue;}
+
+        let timestamp_readable= convertTime(timestamp)
         // content_transcribe += timestamp + ": " + item['transcripts'] + "<br />";
-        content_transcribe += convertTime(timestamp) + ": " + item['transcripts'] + "<br />";
+        content_transcribe += timestamp_readable + ": " + item['transcripts'] +  " (" + item['score_comprehend']['Compound'] +")" + "<br />";
+
+        data_sentiment.unshift( item['score_comprehend']['Compound'] );
+        labels_sentiment.unshift(timestamp_readable);
     }
+
     if(content_transcribe!=""){
         document.getElementById("content_transcribe").innerHTML= content_transcribe;
+        console.log("chart data", data_sentiment, labels_sentiment);
+        updateChart(data_sentiment, labels_sentiment);
     }
+
 }
+
+// chart_sentiment(sentiment_data, sentiment_label);
+
 
 function convertTime(timestamp){
     // return timestamp;

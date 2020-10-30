@@ -84,6 +84,8 @@ h1 {
   float:left; 
   padding:5px;
   text-align: left;
+  border-style: dashed;
+  border-color: #8cd460;
 }
 
 body {
@@ -104,45 +106,6 @@ video {
 .div_toolbar {
   text-align: center;
 }
-/* 
-#video_start {
-  background-color: powderblue;
-  border: none;
-  border-radius: 100%;
-  color: white;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1em;
-  margin: 0 0 1em 0;
-  padding: 0.5em 1.5em 0.6em 0.7em;
-}
-
-#video_start:active {
-  background-color: #d84a38;
-}
-
-#video_start:hover {
-  background-color: #d84a38;
-}
-
-
-#video_end {
-  background-color: #d84a38;
-  border: none;
-  border-radius: 50%;
-  color: white;
-  font-family: 'Roboto', sans-serif;
-  font-size: 1em;
-  margin: 0 0 1em 0;
-  padding: 0.5em 1.5em 0.6em 0.7em;
-}
-
-#video_end:active {
-  background-color: powderblue;
-}
-
-#video_video_endstart:hover {
-  background-color: powderblue;
-} */
 
 
 #video_start{
@@ -189,3 +152,9 @@ video {
 }
 
 
+#chart {
+  border-style: dashed;
+  border-color: #8cd460;
+
+
+}
